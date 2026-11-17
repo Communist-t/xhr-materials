@@ -1,0 +1,55 @@
+# ============================================================
+# 物料仓 .gitignore（方案 B：二进制物料不走 Git 历史，走 Release 附件）
+#
+# Git 里只保留：打包脚本、版本/清单骨架、排除规则、说明文档。
+# apps/ 与 appr/ 的运行时本体在本机组装后打成 zip，作为 Release 附件发布，
+# 由主仓流水线按物料 tag 从 Release 下载，不占仓库历史与 LFS 额度。
+# ============================================================
+
+# ---- 运行时物料本体（不入库，仅本机组装用）----
+apps/
+appr/
+
+# ---- 打包产物与暂存目录 ----
+build/material-stage/
+build/publish-*/
+build/*.zip
+build/*.manifest.json
+dist/
+*.zip
+*.7z
+*.rar
+
+# ---- 运行态 / 个人状态 / 探针脚本（即便残留在组装目录也不入库）----
+**/logs/
+**/screenshots/
+**/conversation_memory/
+**/events/
+**/__pycache__/
+**/_crops/
+**/_probe_tmp/
+**/*.pid
+**/_probe_*.py
+**/_test_*.py
+**/_regress_*.py
+**/probe_uia.py
+**/calibrate_*.py
+**/*.bak
+**/*.bak2
+**/*.bak3
+**/.p/
+**/*.bat
+**/SKILL.md
+**/my_contacts.json
+**/chat_strategy_config.json
+**/moments_queue.json
+**/downloaded_skills.json
+**/user_config.local.json
+
+# ---- IDE / 系统 ----
+.vs/
+.idea/
+*.user
+.DS_Store
+Thumbs.db
+desktop.ini

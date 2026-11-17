@@ -1,0 +1,44 @@
+{
+  "material_version": "rpa-matrix-1.0.0",
+  "built_at": "",
+  "note": "由 scripts/pack-material.ps1 在打包物料时自动补全 built_at 与 files 校验值；主仓通过 runtime_material_version 引用本物料包。",
+  "contents": [
+    {
+      "source": "apps/WeChatRPA",
+      "dest": "apps/WeChatRPA",
+      "description": "微信客服 RPA：便携 Python 运行时 + 业务脚本 + 资源。打包时排除日志、截图、记忆、事件、缓存、个人状态、探针脚本。"
+    },
+    {
+      "source": "appr/matrixmedia",
+      "dest": "appr/matrixmedia",
+      "description": "矩阵运营专员：Electron 免安装目录（含 moments-runtime）。"
+    }
+  ],
+  "exclude_patterns": [
+    "**/logs/**",
+    "**/screenshots/**",
+    "**/conversation_memory/**",
+    "**/events/**",
+    "**/__pycache__/**",
+    "**/_crops/**",
+    "**/_probe_tmp/**",
+    "**/*.pid",
+    "**/_probe_*.py",
+    "**/_test_*.py",
+    "**/_regress_*.py",
+    "**/probe_uia.py",
+    "**/calibrate_*.py",
+    "**/*.bak",
+    "**/*.bak2",
+    "**/*.bak3",
+    "**/.p/**",
+    "**/*.bat",
+    "**/SKILL.md",
+    "**/my_contacts.json",
+    "**/chat_strategy_config.json",
+    "**/downloaded_skills.json",
+    "**/moments_queue.json",
+    "**/user_config.local.json"
+  ],
+  "files": []
+}

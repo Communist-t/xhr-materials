@@ -1,0 +1,44 @@
+# ============================================================
+# 物料仓流水线（独立仓库 xhr-materials）—— 方案 B
+#
+# 物料二进制（apps/ WeChatRPA、appr/ matrixmedia）不进 Git 历史，
+# 由本机 scripts\pack-material.ps1 打成 material-<版本>.zip + manifest，
+# 再作为附件上传到本仓对应 tag 的 Release，供主仓流水线按版本下载。
+#
+# 本仓 CI 只做轻量校验：清单/脚本/规则语法与一致性检查，不在空仓里打包。
+#
+# 物料发布步骤（本机）：
+#   1) pwsh -File scripts\pack-material.ps1 -MaterialVersion rpa-matrix-1.0.0
+#   2) 打 tag 并推送：git tag rpa-matrix-1.0.0; git push origin rpa-matrix-1.0.0
+#   3) 上传附件：gh release upload rpa-matrix-1.0.0 build/material-*.zip build/*.manifest.json --repo Communist-t/xhr-materials
+# ============================================================
+
+name: material-check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - name: 检出物料仓
+        uses: actions/checkout@v4
+
+      - name: 校验清单与脚本完整性
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          foreach ($f in @("build\version.json", "build\material-manifest.json", "scripts\pack-material.ps1", ".gitignore")) {
+            if (-not (Test-Path $f)) { throw "缺少必需文件: $f" }
+          }
+          $v = Get-Content build\version.json -Raw | ConvertFrom-Json
+          $m = Get-Content build\material-manifest.json -Raw | ConvertFrom-Json
+          if (-not $v.runtime_material_version) { throw "version.json 缺少 runtime_material_version" }
+          if (-not $m.contents -or $m.contents.Count -eq 0) { throw "manifest 缺少 contents" }
+          Write-Host "版本骨架校验通过: 物料版本 $($v.runtime_material_version)"

@@ -1,0 +1,7 @@
+{
+  "launcher_version": "0.1.0",
+  "runtime_material_version": "rpa-matrix-1.0.0",
+  "runtime_rid": "win-x64",
+  "publish_framework": "net9.0-windows",
+  "note": "launcher_version 对应主仓发版 tag；runtime_material_version 对应物料仓 Release tag。流水线按此版本拉取匹配物料。"
+}
